@@ -44,6 +44,10 @@ client.login(BOT_TOKEN)
         console.log('Login as '+ client.user.tag)
     })
 
+// Route
+const indexRouter = require('./routes/index');
+app.use('/', indexRouter);
+
 // Register all commands, events.
 commandHandler(client);
 eventHandler(client);
