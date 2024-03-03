@@ -3,11 +3,16 @@ const express = require('express');
 const { commandHandler, eventHandler, registerCommands, resetCommand } = require('./utils/handler');
 require('dotenv').config();
 
+
 const { BOT_TOKEN, PORT } = process.env;
 const port = PORT || 3000;
 
+
 const app = express();
 
+
+// Middleware.
+app.use(express.static(__dirname + '/public'));
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', '*');
@@ -19,6 +24,7 @@ app.use((req, res, next) => {
     }
     next();
 });
+
 
 const client = new Client({
     intents: [
@@ -32,6 +38,7 @@ const client = new Client({
 });
 
 client.commands = new Collection();
+
 
 // Start discord bot.
 client.login(BOT_TOKEN)
