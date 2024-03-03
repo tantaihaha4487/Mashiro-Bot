@@ -10,7 +10,6 @@ module.exports = {
     name: 'guildMemberAdd',
     async execute(member) {
 
-		// Create embed
         const channel = member.guild.channels.cache.find(ch => ch.id == member.guild.systemChannelId);
         const memberRole = member.guild.roles.cache.get(MEMBER_ROLE_ID);
         const guildIcon = await member.guild.iconURL();
@@ -27,7 +26,9 @@ module.exports = {
                 { name: '✿ Tips! ↷', value: `อ่านกฏที่ <#> เพื่อรับยศ **Member**`, inline: false },
             )
             .setTimestamp();
-        
+
+
+        // Send to system chanel.
        	channel.send({ embeds: [label] });
        	channel.send({ files: [buffer] });
 

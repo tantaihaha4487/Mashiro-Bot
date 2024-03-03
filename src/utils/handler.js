@@ -31,7 +31,6 @@ function eventHandler() {
     for( const file of  eventFiles ) {
         
         const event = require(file);
-
         if(event.once) {
             client.once(event.name, (...args) => event.execute(...args))
         } else {
@@ -63,16 +62,36 @@ function readAndFilterFiles(directoryPath, filterCondition) {
 
 
 // Register commands to discord application.
-async function registerCommands(client) {
+async function registerCommands() {
     const rest = new REST({ version: '10' }).setToken(BOT_TOKEN);
+    const commandData = client.commands.map(command => command.data.toJSON());
+    
+    rest.put(Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID), { body: commandData })
+        .catch(console.error);
 
-    try {
-        const commandData = client.commands.map(command => command.data.toJSON());
-        await rest.put(Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID), { body: commandData });
-    } catch (error) {
-        console.error(error);
-    }
+    // for global commands
+    rest.put(Routes.applicationCommands(CLIENT_ID), { body: commandData })
+        .catch(console.error);
+
+    console.log('Successfully register all commands.')
 }
 
 
-module.exports = { commandHandler, eventHandler, registerCommands }
+// Reset slash command.
+function resetCommand() {
+    const rest = new REST().setToken(BOT_TOKEN);
+
+    // for guild-based commands
+    rest.put(Routes.applicationGuildCommands(CLIENT_ID, GUILD_ID), { body: [] })
+        .then(() => console.log('Successfully reset all guild commands.'))
+        .catch(console.error);
+
+    // for global commands
+    rest.put(Routes.applicationCommands(CLIENT_ID), { body: [] })
+        .then(() => console.log('Successfully reset all application commands.'))
+        .catch(console.error);
+}
+
+
+
+module.exports = { commandHandler, eventHandler, registerCommands, resetCommand }
