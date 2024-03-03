@@ -1,2 +1,1 @@
-# Mashiro-Bot
- a discord bot
+# Mashiro-Bot - Feature
