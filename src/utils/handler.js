@@ -23,7 +23,7 @@ function commandHandler(client) {
 
 
 // Read and set event files.
-function eventHandler() {
+function eventHandler(client) {
     
     eventPath = path.join(__dirname, '../events');
     const eventFiles = readAndFilterFiles(eventPath, (file) => file.endsWith('.js'));
@@ -62,7 +62,7 @@ function readAndFilterFiles(directoryPath, filterCondition) {
 
 
 // Register commands to discord application.
-async function registerCommands() {
+async function registerCommands(client) {
     const rest = new REST({ version: '10' }).setToken(BOT_TOKEN);
     const commandData = client.commands.map(command => command.data.toJSON());
     

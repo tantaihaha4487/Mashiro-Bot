@@ -3,13 +3,10 @@ const express = require('express');
 const { commandHandler, eventHandler, registerCommands, resetCommand } = require('./utils/handler');
 require('dotenv').config();
 
-
 const { BOT_TOKEN, PORT } = process.env;
 const port = PORT || 3000;
 
-
-app = express();
-
+const app = express();
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -17,47 +14,41 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     res.setHeader('Access-Control-Allow-Credentials', true);
     if (req.method === 'OPTIONS') {
-        res.status(200).end()
-        return
-      }
+        res.status(200).end();
+        return;
+    }
     next();
 });
 
-
-client = new Client({
+const client = new Client({
     intents: [
-		GatewayIntentBits.Guilds,
-		GatewayIntentBits.GuildMessages,
-		GatewayIntentBits.MessageContent,
-		GatewayIntentBits.GuildMembers,
-		GatewayIntentBits.GuildMessageReactions,
-	],
-	partials: [Partials.Message, Partials.Channel, Partials.Reaction]
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent,
+        GatewayIntentBits.GuildMembers,
+        GatewayIntentBits.GuildMessageReactions,
+    ],
+    partials: [Partials.Message, Partials.Channel, Partials.Reaction]
 });
 
-
 client.commands = new Collection();
-
 
 // Start discord bot.
 client.login(BOT_TOKEN)
     .then(() => {
-        console.log('Login as '+ client.user.tag)
+        console.log('Login as '+ client.user.tag);
+        // Register all commands, events.
+        commandHandler(client);
+        eventHandler(client);
+        resetCommand();
+        return registerCommands(client);
     })
-
-// Route
-const indexRouter = require('./routes/index');
-
-app.use(express.static(__dirname + '/public'));
-app.use('/', indexRouter);
-
-// Register all commands, events.
-commandHandler(client);
-eventHandler(client);
-resetCommand();
-registerCommands();
-
-// Start express app.
-app.listen(port, () => {
-    console.log('App is running fine!!');
-})
+    .then(() => {
+        // Start express app.
+        app.listen(port, () => {
+            console.log('App is running fine!!');
+        });
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
