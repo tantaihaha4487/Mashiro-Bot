@@ -1,6 +1,6 @@
 const { Client, GatewayIntentBits, Collection, Partials } = require('discord.js');
 const express = require('express');
-const { commandHandler, eventHandler, registerCommands, resetCommand } = require('./utils/handler');
+const { commandHandler, eventHandler, registerCommands } = require('./utils/handler');
 require('dotenv').config();
 
 
@@ -47,8 +47,7 @@ client.login(BOT_TOKEN)
         // Register all commands, events.
         commandHandler(client);
         eventHandler(client);
-        resetCommand();
-        return registerCommands(client);
+        registerCommands(client);
     })
     .then(() => {
         // Start express app.

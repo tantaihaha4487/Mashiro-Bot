@@ -2,7 +2,7 @@ const { EmbedBuilder } = require("discord.js");
 require('dotenv').config();
 
 
-const { ADMIN_USER_ID } = process.env;
+const { ADMIN_USER_ID } = require('../../config.json');
 
 
 module.exports = {

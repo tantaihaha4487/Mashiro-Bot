@@ -1,9 +1,6 @@
 const { EmbedBuilder } = require('discord.js');
 const { generateBanner } = require('../utils/profileBannerGenerater');
-require('dotenv').config()
-
-
-const { MEMBER_ROLE_ID } = process.env;
+const { MEMBER_ROLE_ID } = require('../../config.json');
 
 
 module.exports = {
