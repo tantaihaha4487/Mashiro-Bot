@@ -1,7 +1,7 @@
 const { EmbedBuilder } = require("discord.js");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const { CHATBOT_CHANNEL_ID } = require('../../config.json');
-const { generativeAITextOnly } = require("../utils/ai/genAI");
+const { generativeAITextOnly } = require("../utils/AI/genAI");
 const chatHistory = [
     {
       role: "user",
