@@ -1,7 +1,7 @@
 const { EmbedBuilder } = require("discord.js");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const { CHATBOT_CHANNEL_ID } = require('../../config.json');
-const { generativeAITextOnly } = require("../utils/AI/genAI");
+const { generativeAITextOnly, mashiroChatBotTextOnly } = require("../utils/AI/genAI");
 const { textOnlyChatHistoryPrompt } = require('../utils/prompt');
 const errEmbed = new EmbedBuilder()
         .setColor(0xff0202)
@@ -9,7 +9,6 @@ const errEmbed = new EmbedBuilder()
         .setDescription(`Mashiro can't generate the answer.` )
         .setFooter({ text: 'มาชิโระไม่สามารถสร้างคำตอบได้.' })
         .setTimestamp();
-
 
 module.exports = {
     name: 'messageCreate',
@@ -21,6 +20,7 @@ module.exports = {
         // Isn't Chat Bot Channel return.
         if (!(message.channel.id === CHATBOT_CHANNEL_ID)) return;
         (async function () {
+            let contents = await textOnlyChatHistoryPrompt;
             message.channel.sendTyping();
             try {
                 if (!msg || msg.trim() === '') {
@@ -29,15 +29,17 @@ module.exports = {
                     return;
                 }
 
+                console.log(contents)
+
                 // // Check for empty chat history
-                // if (!textOnlyChatHistoryPrompt || !textOnlyChatHistoryPrompt.parts || textOnlyChatHistoryPrompt.parts.length === 0 || !textOnlyChatHistoryPrompt.length)  {
+                // if (!contents || !contents.parts || contents.parts.length === 0 || !contents.length)  {
                 // console.error('Error: Chat history is empty.');
                 // // Handle empty chat history (e.g., send a message indicating no conversation context)
                 // message.reply({ content: `Mashiro doesn't have enough information to answer yet. Please chat with Mashiro more! (มาชิโระยังไม่มีข้อมูลเพียงพอที่จะตอบได้นะ คุยกับมาชิโระเพิ่มเติมอีกสักหน่อย! )`, ephemeral: true });
                 // return;
                 // }
 
-                const result = await generativeAITextOnly(msg, textOnlyChatHistoryPrompt);
+                const result = await generativeAITextOnly(msg, contents);
 
                 // Message is blank
                 if (!result || result.trim() === '') {
