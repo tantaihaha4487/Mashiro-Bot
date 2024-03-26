@@ -29,10 +29,10 @@ module.exports = {
                     return;
                 }
 
-                const chatHistory = await textOnlyChatHistoryPrompt();
+                const chatHistory = await textOnlyChatHistoryPrompt;
 
                 // Check for empty chat history
-                if (!chatHistory || !chatHistory.parts || chatHistory.parts.length === 0) {
+                if (!chatHistory || !chatHistory.parts || chatHistory.parts.length === 0 || !chatHistory.length)  {
                 console.error('Error: Chat history is empty.');
                 // Handle empty chat history (e.g., send a message indicating no conversation context)
                 message.reply({ content: `Mashiro doesn't have enough information to answer yet. Please chat with Mashiro more! (มาชิโระยังไม่มีข้อมูลเพียงพอที่จะตอบได้นะ คุยกับมาชิโระเพิ่มเติมอีกสักหน่อย! )`, ephemeral: true });
