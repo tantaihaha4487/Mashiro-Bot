@@ -8,7 +8,7 @@ module.exports = {
 	execute(client) {
 
         // Send notification when bot online.
-        client.channel.fetch(CHATBOT_CHANNEL_ID)
+        client.channels.fetch(CHATBOT_CHANNEL_ID)
             .then(user => {
 
                 embed = new EmbedBuilder()
