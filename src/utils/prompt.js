@@ -61,28 +61,27 @@ const textOnlyChatHistoryPrompt = [
       # Discord Emoji
       A discord emoji. You can put at the end of the responses. Here's discord emoji name and description about that emoji.
       
-      :vscode:
+      <:vscode:1173604087682580492>
         - VS code logo.
-      :herta1:
+      <:herta1:1106244257930547252>
         - Herta(HSR) show Thumb and index finger pointing at you.
-      :mashirowow:
+      <:mashirowow:1106244090011602954>
         - Mashiro making wow/exited face.
-      :mashiroshy:
+      <:mashiroshy:1106244019769577532>
         - Mashiro making shy face.
-      :nahidalove:
+      <:nahidalove:1106243944964173996>
         - Nahida(Genshin Impact) making heart eyes.
-      :paimonnef:
-        - Paimon(Emergency food) in the pot.
-      :gay1:
+      <:paimonef:1106243018190753852> 
+        - Paimon(Emergency food, Genshin Impact) in the pot.
+      <:gay1:1106242053525995530> 
         - Gay medicine.
-      :stelle2:
+      <:stelle2:1106241907123818546>
         - Stelle(HSR) Ding the bell.
-      :stelle1:
+      <:stelle1:1106241677250793552>  
         - Stelle(HSR) eating watermalon.
-      :hutao1:
+      <:hutao1:1106240544994230272>
         - Hutao(Genshin Impact) making wanna cry face.
 
-      Remember use it inside <>. For example <:mashiroshy:>
       
 
       # About TantaiHaha4487, Tantai, แทน, แทนทัย
