@@ -15,32 +15,36 @@ module.exports = {
     name: 'messageCreate',
     once: false,
     execute(message) {
-        msg = message.content;
+        const msg = message.content;
         // Is bot return.
         if (message.author.bot) return;
         // Isn't Chat Bot Channel return.
         if (!(message.channel.id === CHATBOT_CHANNEL_ID)) return;
-        ( async function () {
+        (async function () {
             message.channel.sendTyping();
             try {
-                generativeAITextOnly(msg, textOnlyChatHistoryPrompt)
-                    .then((result) => {
+                if (!msg || msg.trim() === '') {
+                    message.reply({ embeds: [errEmbed], ephemeral: true });
+                    console.error('Error: Input message is empty.');
+                    return;
+                }
 
-                        // Message is blank
-                        if(result === '' || result === undefined) {
-                            message.reply({ embeds: [errEmbed], ephemeral: true })
-                            console.error('Error: Ai response is empty.');
-                            return;
-                        }
+                const result = await generativeAITextOnly(msg, textOnlyChatHistoryPrompt);
 
-                        message.reply(result);
-                        console.log('Ask: ', msg);
-                        console.log('Response: ', result);
-                    })
+                // Message is blank
+                if (!result || result.trim() === '') {
+                    message.reply({ embeds: [errEmbed], ephemeral: true });
+                    console.error('Error: Ai response is empty.');
+                    return;
+                }
+
+                message.reply(result);
+                console.log('Ask: ', msg);
+                console.log('Response: ', result);
             } catch (err) {
-                message.editReply({ content: `Mashiro can't generate the answer, มาชิโระไม่สามารถสร้างคำตอบได้.`, ephemeral: true })
+                message.reply({ content: `Mashiro can't generate the answer, มาชิโระไม่สามารถสร้างคำตอบได้.`, ephemeral: true });
+                console.error('Error occurred:', err);
             }
         })();
-
     },
 };
