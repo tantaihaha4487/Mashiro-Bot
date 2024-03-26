@@ -29,7 +29,7 @@ module.exports = {
                     return;
                 }
 
-                const chatHistory = await textOnlyChatHistoryPrompt(message);
+                const chatHistory = await textOnlyChatHistoryPrompt();
 
                 // Check for empty chat history
                 if (!chatHistory || !chatHistory.parts || chatHistory.parts.length === 0) {
