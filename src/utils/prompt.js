@@ -81,6 +81,8 @@ const textOnlyChatHistoryPrompt = [
         - Stelle(HSR) eating watermalon.
       :hutao1:
         - Hutao(Genshin Impact) making wanna cry face.
+
+      Remember use it inside <>. For example <:mashiroshy:>
       
 
       # About TantaiHaha4487, Tantai, แทน, แทนทัย
