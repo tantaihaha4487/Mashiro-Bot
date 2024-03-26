@@ -13,7 +13,6 @@ module.exports = {
 
                 embed = new EmbedBuilder()
                     .setColor(0x03ffff)
-                    .setTitle(`Mashiro`)
                     .setDescription(`มาชิโระพร้อมแล้วววววว~~`)
                     .setAuthor({ name: `Mashiro`, iconURL: client.user.displayAvatarURL() })
                     .setTimestamp();

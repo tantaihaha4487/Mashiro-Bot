@@ -29,6 +29,16 @@ module.exports = {
                     return;
                 }
 
+                const chatHistory = await textOnlyChatHistoryPrompt(message);
+
+                // Check for empty chat history
+                if (!chatHistory || !chatHistory.parts || chatHistory.parts.length === 0) {
+                console.error('Error: Chat history is empty.');
+                // Handle empty chat history (e.g., send a message indicating no conversation context)
+                message.reply({ content: `Mashiro doesn't have enough information to answer yet. Please chat with Mashiro more! (มาชิโระยังไม่มีข้อมูลเพียงพอที่จะตอบได้นะ คุยกับมาชิโระเพิ่มเติมอีกสักหน่อย! )`, ephemeral: true });
+                return;
+                }
+
                 const result = await generativeAITextOnly(msg, textOnlyChatHistoryPrompt);
 
                 // Message is blank
