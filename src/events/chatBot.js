@@ -49,7 +49,7 @@ module.exports = {
                 }
 
                 // Generate response
-                const result = await generativeAITextOnly(msg, contents);
+                const result = await generativeAITextOnly(msg, chatHistory);
 
                 // Response is blank,
                 if (!result || result.trim() === '') {
