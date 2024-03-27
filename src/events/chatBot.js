@@ -57,13 +57,13 @@ module.exports = {
                     console.error('Error: Ai response is empty.');
                     return;
                 }
-                
+
                 // Send message
                 if (result.length <= 2000) {
                     message.reply(result);
                 } else {
                     // Split the text into chunks of 2000 characters
-                    const chunks = text.match(/[\s\S]{1,2000}/g) || [];
+                    const chunks = result.match(/[\s\S]{1,2000}/g) || [];
                     // Send each chunk as a separate message
                     for (const chunk of chunks) {
                         await message.reply(chunk);
