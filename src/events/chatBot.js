@@ -57,9 +57,9 @@ module.exports = {
                     console.error('Error: Ai response is empty.');
                     return;
                 }
-
+                
                 // Send message
-                if (text.length <= 2000) {
+                if (result.length <= 2000) {
                     message.reply(result);
                 } else {
                     // Split the text into chunks of 2000 characters
