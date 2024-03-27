@@ -12,16 +12,16 @@ let chatHistory = textOnlyChatHistory;
 
 
 function handleTurn(user, response) {
-    const user = {
+    const userChat = {
         role: 'user', 
-        pasrts: [{ text: user}]
+        parts: [{ text: user}]
     }
-    const model = {
+    const modelResponse = {
         role: 'model', 
-        pasrts: [{ text: response}]
+        parts: [{ text: response}]
     }
     
-    chatHistory.push(user, model);
+    chatHistory.push(userChat, modelResponse);
 }
 
 
