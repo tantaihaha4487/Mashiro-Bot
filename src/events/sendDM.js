@@ -1,6 +1,4 @@
 const { EmbedBuilder } = require("discord.js");
-
-
 const { ADMIN_USER_ID } = require('../../config.json');
 
 

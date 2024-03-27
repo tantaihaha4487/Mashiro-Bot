@@ -8,7 +8,9 @@ const { BOT_TOKEN, CLIENT_ID } = process.env;
 const { GUILD_ID } = require('../../config.json');
 
 
-// Read and set execute command files.
+/**
+ * Read and set execute command files.
+ */
 function commandHandler(client) {
     const commandPath = path.join(__dirname, '../commands');
     const commandFiles = readAndFilterFiles(commandPath, (file) => file.endsWith('.js'));
@@ -22,8 +24,9 @@ function commandHandler(client) {
 }
 
 
-
-// Read and set event files.
+/**
+ * Read and set event files. 
+ */
 function eventHandler(client) {
     
     eventPath = path.join(__dirname, '../events');
@@ -43,7 +46,12 @@ function eventHandler(client) {
 }
 
 
-// Read and filter files.
+/**
+ * 
+ * @param {path} directoryPath Directory to read and filter.
+ * @param {*} filterCondition condition to filter files.
+ * @returns 
+ */
 function readAndFilterFiles(directoryPath, filterCondition) {
     try {
         // Read files from the specified directory
@@ -62,7 +70,9 @@ function readAndFilterFiles(directoryPath, filterCondition) {
 }
 
 
-// Register commands to discord application.
+/**
+ * Register commands to discord application.
+ */
 async function registerCommands(client) {
     const rest = new REST({ version: '10' }).setToken(BOT_TOKEN);
     const commandData = client.commands.map(command => command.data.toJSON());

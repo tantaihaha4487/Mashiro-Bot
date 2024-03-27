@@ -1,14 +1,30 @@
 const { EmbedBuilder } = require("discord.js");
-const { GoogleGenerativeAI } = require("@google/generative-ai");
 const { CHATBOT_CHANNEL_ID } = require('../../config.json');
-const { generativeAITextOnly, mashiroChatBotTextOnly } = require("../utils/AI/genAI");
-const { textOnlyChatHistoryPrompt } = require('../utils/prompt');
+const { generativeAITextOnly } = require("../utils/AI/genAI");
+const { textOnlyChatHistory } = require('../utils/prompt');
 const errEmbed = new EmbedBuilder()
         .setColor(0xff0202)
         .setTitle('Error')
         .setDescription(`Mashiro can't generate the answer.` )
         .setFooter({ text: 'มาชิโระไม่สามารถสร้างคำตอบได้.' })
         .setTimestamp();
+let chatHistory = textOnlyChatHistory;
+
+
+function handleTurn(user, response) {
+    const user = {
+        role: 'user', 
+        pasrts: [{ text: user}]
+    }
+    const model = {
+        role: 'model', 
+        pasrts: [{ text: response}]
+    }
+    
+    chatHistory.push(user, model);
+}
+
+
 
 module.exports = {
     name: 'messageCreate',
@@ -19,9 +35,12 @@ module.exports = {
         if (message.author.bot) return;
         // Isn't Chat Bot Channel return.
         if (!(message.channel.id === CHATBOT_CHANNEL_ID)) return;
+
+
         (async function () {
-            let contents = await textOnlyChatHistoryPrompt;
             message.channel.sendTyping();
+
+            // Prompt is not blank.
             try {
                 if (!msg || msg.trim() === '') {
                     message.reply({ embeds: [errEmbed], ephemeral: true });
@@ -29,26 +48,19 @@ module.exports = {
                     return;
                 }
 
-                console.log(contents)
-
-                // // Check for empty chat history
-                // if (!contents || !contents.parts || contents.parts.length === 0 || !contents.length)  {
-                // console.error('Error: Chat history is empty.');
-                // // Handle empty chat history (e.g., send a message indicating no conversation context)
-                // message.reply({ content: `Mashiro doesn't have enough information to answer yet. Please chat with Mashiro more! (มาชิโระยังไม่มีข้อมูลเพียงพอที่จะตอบได้นะ คุยกับมาชิโระเพิ่มเติมอีกสักหน่อย! )`, ephemeral: true });
-                // return;
-                // }
-
+                // Generate response
                 const result = await generativeAITextOnly(msg, contents);
 
-                // Message is blank
+                // Response is blank,
                 if (!result || result.trim() === '') {
                     message.reply({ embeds: [errEmbed], ephemeral: true });
                     console.error('Error: Ai response is empty.');
                     return;
                 }
 
+                // Send message
                 message.reply(result);
+                handleTurn(msg, result)
                 console.log('Ask: ', msg);
                 console.log('Response: ', result);
             } catch (err) {
@@ -56,5 +68,7 @@ module.exports = {
                 console.error('Error occurred:', err);
             }
         })();
+
+
     },
 };
