@@ -9,7 +9,7 @@ const { GUILD_ID } = require('../../config.json');
 
 
 // Reset slash command.
-(function resetCommand() {
+function resetCommand() {
     const rest = new REST().setToken(BOT_TOKEN);
 
     // for guild-based commands
@@ -21,7 +21,8 @@ const { GUILD_ID } = require('../../config.json');
     rest.put(Routes.applicationCommands(CLIENT_ID), { body: [] })
         .then(() => console.log('Successfully reset all application commands.'))
         .catch(console.error);
-})();
+};
 
 
+resetCommand();
 module.exports = { resetCommand }
