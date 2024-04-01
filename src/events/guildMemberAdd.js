@@ -20,7 +20,6 @@ module.exports = {
             .addFields(
                 { name: '✿ User ↷', value: `<@${member.id}>`, inline: true },
                 { name: '✿ Member Count ↷', value: `${member.guild.memberCount}`, inline: true },
-                { name: '✿ Tips! ↷', value: `อ่านกฏที่ <#> เพื่อรับยศ **Member**`, inline: false },
             )
             .setTimestamp();
 
