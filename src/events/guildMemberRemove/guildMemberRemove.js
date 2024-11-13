@@ -1,5 +1,8 @@
 const { EmbedBuilder } = require('discord.js');
 
+/**
+ * Sending an goodbye embed when a user leaves the server.
+*/
 module.exports = async (client, member) => {
     const guild = client.guilds.cache.get(member.guild.id);
     const channel = guild.systemChannelId ? guild.channels.cache.get(guild.systemChannelId) : null;
@@ -14,7 +17,8 @@ module.exports = async (client, member) => {
         .setThumbnail('https://c.tenor.com/oS6oGX2ebOEAAAAd/tenor.gif')
         .setDescription(`
 ╭──────────.★..─╮
-    𝙒𝙚'𝙡𝙡 𝙢𝙞𝙨𝙨 𝙮𝙤𝙪 ♡ .യ
+﹕・𝙒𝙚'𝙡𝙡 𝙢𝙞𝙨𝙨 𝙮𝙤𝙪 ♡ .യ
+﹕・<@${member.id}>୨
 ╰─..★.──────────╯
         `)
         .setImage('https://github.com/tantaihaha4487/assets/blob/main/Mashiro-bot/Banner.png?raw=true')

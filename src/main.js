@@ -15,6 +15,6 @@ const client = new Client(
         partials: [Partials.Message, Partials.Channel, Partials.Reaction]
     }
 );
-registerEvents(client);
 
+registerEvents(client);
 client.login(BOT_TOKEN);
