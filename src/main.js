@@ -11,10 +11,13 @@ const client = new Client(
             GatewayIntentBits.MessageContent,
             GatewayIntentBits.GuildMembers,
             GatewayIntentBits.GuildMessageReactions,
+            GatewayIntentBits.GuildVoiceStates,
         ],
         partials: [Partials.Message, Partials.Channel, Partials.Reaction]
     }
 );
+
+client.events = [];
 
 registerEvents(client);
 client.login(BOT_TOKEN);
