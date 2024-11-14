@@ -7,11 +7,11 @@ module.exports = async (client, member) => {
 
     if (!channel) return; // Exit if there's no system channel
 
-    const label = new EmbedBuilder()
+    const welcomeEmbed = new EmbedBuilder()
         .setColor(0xf9c6cf)
         .setTitle(`・:。Welcome「 ✉️ 」・:三`)
         .setAuthor({ name: `${guild.name}`, iconURL: `${guildIcon}` })
-        .setThumbnail('https://media.tenor.com/sh8xc5-HiVEAAAAi/anime-woo.gif')
+        .setThumbnail('https://media.tenor.com/sh8xc5-HiVEAAAAi/anime-woo.gif') // boucing gif.
         .setDescription(`
 ⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣⌣ ‧₊˚✧
 ╰─ - ̗̀✎ <@${member.id}>
@@ -21,7 +21,7 @@ module.exports = async (client, member) => {
             { name: ' ﹒User﹒✿﹒', value: `꒰<@${member.id}>꒱`, inline: true },
             { name: ' lıl﹒Member Count﹒ ', value: `꒰${guild.memberCount}꒱`, inline: true },
         )
-        .setImage('https://i.pinimg.com/564x/b4/b3/69/b4b36946e6ff04f0eeb75e79ed253f5b.jpg')
+        .setImage('https://i.pinimg.com/564x/b4/b3/69/b4b36946e6ff04f0eeb75e79ed253f5b.jpg') // welcome banner image.
         .setTimestamp();
 
     // Send to system channel.
