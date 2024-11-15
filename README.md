@@ -14,5 +14,5 @@ services:
 
 ```
 
-replace {DISCORD_TOKEN} with your bot token.
+replace {DISCORD_TOKEN} with your bot token. <br>
 replace {BOT_OWNER_ID} with your bot owner user id.

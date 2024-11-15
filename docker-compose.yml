@@ -8,4 +8,5 @@ services:
     container_name: mashiro-bot
     environment:
       - BOT_TOKEN={BOT_TOKEN}
+      - BOT_OWNER_ID={BOT_OWNER_ID}
     restart: unless-stopped

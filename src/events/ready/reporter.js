@@ -7,14 +7,17 @@ module.exports = (client) => {
     if (!BOT_OWNER_ID) return console.log('reporter.js: BOT_OWNER_ID is not specified');
 
     const reporterEmbed = new EmbedBuilder()
-    .setTitle('Discord-Bot Reporter')
+    .setTitle('Discord-Bot Start Reporter')
     .setAuthor({ name: client.user.username, iconURL: `${client.user.avatarURL()}` })
-    .setColor(0xb200f9)
-    .setDescription('Reporter is here!')
+    .setColor(0x00FFFF)
+    .setThumbnail('https://media1.tenor.com/m/v_JQ83gJYvMAAAAC/natsuki-momohara-one-room.gif')
     .addFields(
-        { name: 'Bot Name', value: client.user.username, inline: true },
-        { name: 'Bot ID', value: client.user.id, inline: true },
-        { name: 'Registered Event', value: client.events.map(e => e).join(', ') },
+        { name: '★﹒BOT NAME', value: client.user.username, inline: true },
+        { name: '∿　 BOT ID  ・', value: client.user.id, inline: true },
+        { name: '╰╮REGISTERD EVENTS', value: client.events.map(
+            (elememt, index) => `╰─ - **[${index + 1}]** ${elememt}`
+        ).join('\n')} // list of events
+       
     )
     .setTimestamp();
 
