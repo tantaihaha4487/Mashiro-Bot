@@ -25,5 +25,5 @@ module.exports = async (client, member) => {
         .setTimestamp();
 
     // Send to system channel.
-    channel.send({ embeds: [label] });
+    channel.send({ embeds: [welcomeEmbed] });
 };
