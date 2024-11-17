@@ -4,7 +4,6 @@ const path = require('path');
 // Function to register all events
 function registerEvents(client) {
     const eventDir = path.join(__dirname, '../events');
-    client.events = []; // Initialize client.events as an empty array
 
     // Read all folders inside the event directory
     const folders = fs.readdirSync(eventDir);
