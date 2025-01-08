@@ -1,5 +1,6 @@
-const { Client, GatewayIntentBits, Partials } = require('discord.js');
+const { Client, GatewayIntentBits, Partials, Collection } = require('discord.js');
 const { registerEvents } = require('./utils/eventsHandler');
+const { registerCommand } = require('./utils/commandsHandler');
 require('dotenv').config();
 const { BOT_TOKEN } = process.env;
 
@@ -18,6 +19,9 @@ const client = new Client(
 );
 
 client.events = [];
+client.commands = new Collection();
 
 registerEvents(client);
+registerCommand(client);
+
 client.login(BOT_TOKEN);
