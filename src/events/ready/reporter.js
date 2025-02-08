@@ -1,4 +1,4 @@
-const { EmbedBuilder} =require('discord.js');
+const { EmbedBuilder } = require('discord.js');
 require('dotenv').config();
 const { BOT_OWNER_ID } = process.env;
 
@@ -6,7 +6,7 @@ module.exports = (client) => {
     // if owner is not specified
     if (!BOT_OWNER_ID) return console.log('reporter.js: BOT_OWNER_ID is not specified');
 
-    const date = Date();
+    const date = new Date().toString();
 
     const reporterEmbed = new EmbedBuilder()
     .setTitle('Discord-Bot Start Reporter')
@@ -17,9 +17,13 @@ module.exports = (client) => {
         { name: '★﹒BOT NAME', value: client.user.username, inline: true },
         { name: '∿　 TIME  ・', value: date.split(' ').slice(0, 5).join(' '), inline: true },
         { name: '╰╮REGISTERD EVENTS', value: client.events.map(
-            (elememt, index) => `╰─ - **[${index + 1}]** ${elememt}`
-        ).join('\n')} // list of events
-       
+            (element, index) => `╰─ - **[${index + 1}]** ${element}`
+        ).join('\n')}, // list of events
+        { name: '╰╮REGISTERED COMMANDS', value: client.commands.map(
+            (command, index) => {
+                return `╰─ - **[${index + 1}]** ${command.data.name} - ${command.data.description}`;
+            }
+        ).join('\n')}
     )
     .setTimestamp();
 
@@ -32,6 +36,4 @@ module.exports = (client) => {
     .catch((err) => {
         console.error('reporter.js: Error sending message to owner', err);
     });
-
-
 }
