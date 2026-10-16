@@ -1,40 +1,50 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require("node:fs");
+const path = require("node:path");
 
-// Function to register all events
-function registerEvents(client) {
-    const eventDir = path.join(__dirname, '../events');
+function registerEvents(client, eventDir = path.join(__dirname, "../events")) {
+  client.events ??= [];
 
-    // Read all folders inside the event directory
-    const folders = fs.readdirSync(eventDir);
-    folders.forEach(folder => {
-        const eventFolderPath = path.join(eventDir, folder);
-        const eventName = folder; // Use folder name as the event name
+  const folders = fs.readdirSync(eventDir, { withFileTypes: true });
+  for (const folder of folders) {
+    if (!folder.isDirectory()) continue;
 
-        const eventFiles = fs.readdirSync(eventFolderPath).filter(file => file.endsWith('.js'));
-        console.log(`Registering event: ${eventName}`);
+    const eventName = folder.name;
+    const eventFolderPath = path.join(eventDir, eventName);
+    const eventFiles = fs
+      .readdirSync(eventFolderPath, { withFileTypes: true })
+      .filter((entry) => entry.isFile() && entry.name.endsWith(".js"));
 
-        eventFiles.forEach(file => {
-            const eventPath = `${eventName}/${file}`; // Create path like ready/ready.js
-            client.events.push(eventPath); // Push the event path to client.events
+    for (const file of eventFiles) {
+      const eventPath = `${eventName}/${file.name}`;
+      let eventModule;
 
-            try {
-                const eventModule = require(path.join(eventFolderPath, file));
-                if (typeof eventModule === 'function') {
-                    // Attach the event to the client
-                    client.on(eventName, (...args) => {
-                        console.log(`Event triggered: ${eventName}`);
-                        eventModule(client, ...args);
-                    });
-                } else {
-                    console.error(`Error: ${eventPath} does not export a function`);
-                }
-            } catch (error) {
-                console.error(`Error loading event file ${eventPath}:`, error);
-            }
-        });
-    });
+      try {
+        eventModule = require(path.join(eventFolderPath, file.name));
+      } catch (error) {
+        throw new Error(`Failed to load event module ${eventPath}`, { cause: error });
+      }
+
+      if (typeof eventModule !== "function") {
+        throw new TypeError(`Event module ${eventPath} must export a function`);
+      }
+
+      client.events.push(eventPath);
+      const listener = async (...args) => {
+        try {
+          await eventModule(client, ...args);
+        } catch (error) {
+          console.error(`Event handler ${eventPath} failed:`, error);
+        }
+      };
+
+      if (eventName === "clientReady") {
+        client.once(eventName, listener);
+      } else {
+        client.on(eventName, listener);
+      }
+      console.log(`Registered event: ${eventName} (${eventPath})`);
+    }
+  }
 }
 
 module.exports = { registerEvents };
-

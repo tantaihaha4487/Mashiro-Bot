@@ -1,44 +1,25 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require("node:fs");
+const path = require("node:path");
 
+function registerCommand(client, commandPath = path.join(__dirname, "../commands")) {
+  const commandFiles = fs
+    .readdirSync(commandPath, { withFileTypes: true })
+    .filter((entry) => entry.isFile() && entry.name.endsWith(".js"))
+    .map((entry) => path.join(commandPath, entry.name));
 
-/**
- * Read and set execute command files.
- */
-function registerCommand(client) {
-    const commandPath = path.join(__dirname, '../commands');
-    const commandFiles = readAndFilterFiles(commandPath, (file) => file.endsWith('.js'));
-    
-    for (const file of commandFiles) {
-        const command = require(file);
-        client.commands.set(command.data.name, command);
-
-        console.log(`Registered ${command.data.name} command.`);
+  for (const file of commandFiles) {
+    const command = require(file);
+    const name = command?.data?.name;
+    if (typeof name !== "string" || typeof command.execute !== "function") {
+      throw new TypeError(`Command module ${file} must export data.name and execute()`);
     }
-}
-
-
-/**
- * 
- * @param {path} directoryPath Directory to read and filter.
- * @param {*} filterCondition condition to filter files.
- * @returns 
- */
-function readAndFilterFiles(directoryPath, filterCondition) {
-    try {
-        // Read files from the specified directory
-        const files = fs.readdirSync(directoryPath);
-
-        // Filter files based on the provided condition and map them to their full paths
-        const filteredFiles = files
-            .filter(file => filterCondition(file))
-            .map(file => path.join(directoryPath, file));
-
-        return filteredFiles;
-    } catch (error) {
-        console.error('Error reading or filtering files:', error);
-        return [];
+    if (client.commands.has(name)) {
+      throw new Error(`Duplicate command name: ${name}`);
     }
+
+    client.commands.set(name, command);
+    console.log(`Registered ${name} command.`);
+  }
 }
 
 module.exports = { registerCommand };

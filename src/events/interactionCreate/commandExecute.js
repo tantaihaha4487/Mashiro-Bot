@@ -8,6 +8,11 @@ module.exports = async (client, interaction) => {
         await command.execute(interaction);
     } catch (err) {
         console.error(err);
-        await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+        const response = { content: 'There was an error while executing this command!', ephemeral: true };
+        if (interaction.replied || interaction.deferred) {
+            await interaction.followUp(response);
+        } else {
+            await interaction.reply(response);
+        }
     }
 };

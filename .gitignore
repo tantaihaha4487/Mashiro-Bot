@@ -1,5 +1,6 @@
 docker-compose.yml.backup
 docker-compose.backup.yml
+node_modules/
 .env
-node_modules
-package-lock.json
+.env.*
+!.env.example

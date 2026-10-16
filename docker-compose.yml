@@ -1,5 +1,3 @@
-version: '2.30.3'
-
 services:
   mashiro-bot:
     build:
@@ -7,6 +5,12 @@ services:
       dockerfile: Dockerfile
     container_name: mashiro-bot
     environment:
-      - BOT_TOKEN={BOT_TOKEN}
-      - BOT_OWNER_ID={BOT_OWNER_ID}
+      BOT_TOKEN: "${BOT_TOKEN:?Set BOT_TOKEN in .env or your shell}"
+      BOT_OWNER_ID: "${BOT_OWNER_ID:-}"
+      WELCOME_ROLE_ID: "${WELCOME_ROLE_ID:-}"
+      WELCOME_THUMBNAIL_URL: "${WELCOME_THUMBNAIL_URL:-}"
+      WELCOME_BANNER_URL: "${WELCOME_BANNER_URL:-}"
+      GOODBYE_THUMBNAIL_URL: "${GOODBYE_THUMBNAIL_URL:-}"
+      GOODBYE_BANNER_URL: "${GOODBYE_BANNER_URL:-}"
+      REPORTER_THUMBNAIL_URL: "${REPORTER_THUMBNAIL_URL:-}"
     restart: unless-stopped

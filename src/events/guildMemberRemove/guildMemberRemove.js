@@ -1,29 +1,35 @@
 const { EmbedBuilder } = require('discord.js');
+const media = require('../../utils/mediaConfig');
 
 /**
  * Sending an goodbye embed when a user leaves the server.
 */
-module.exports = async (client, member) => {
-    const guild = client.guilds.cache.get(member.guild.id);
-    const channel = guild.systemChannelId ? guild.channels.cache.get(guild.systemChannelId) : null;
-    const guildIcon = guild.iconURL();
+module.exports = async (_client, member) => {
+    const guild = member.guild;
+    const channel = guild.systemChannel;
+    console.log(`Member left guild ${guild.id}.`);
 
     if (!channel) return; // Exit if there's no system channel
+
+    const author = { name: guild.name };
+    const guildIcon = guild.iconURL();
+    if (guildIcon) author.iconURL = guildIcon;
 
     const goodbyeEmbed = new EmbedBuilder()
         .setColor(0xf9c6cf)
         .setTitle(`・:。Goodbye「 ✉️ 」・:三`)
-        .setAuthor({ name: `${guild.name}`, iconURL: `${guildIcon}` })
-        .setThumbnail('https://c.tenor.com/oS6oGX2ebOEAAAAd/tenor.gif') // crying ayna gif.
+        .setAuthor(author)
         .setDescription(`
 ╭──────────.★..─╮
 ﹕・𝙒𝙚'𝙡𝙡 𝙢𝙞𝙨𝙨 𝙮𝙤𝙪 ♡ .യ
 ﹕・<@${member.id}>୨
 ╰─..★.──────────╯
         `)
-        .setImage('https://github.com/tantaihaha4487/assets/blob/main/Mashiro-bot/Banner.png?raw=true') // GpoodBye banner.
         .setTimestamp();
 
+    if (media.goodbyeThumbnail) goodbyeEmbed.setThumbnail(media.goodbyeThumbnail);
+    if (media.goodbyeBanner) goodbyeEmbed.setImage(media.goodbyeBanner);
+
     // Send to system channel.
-    channel.send({ embeds: [goodbyeEmbed] });
+    await channel.send({ embeds: [goodbyeEmbed] });
 };
